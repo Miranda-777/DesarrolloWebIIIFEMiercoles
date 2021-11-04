@@ -4,35 +4,45 @@ class App extends Component{
   constructor(props){
     super(props)
     this.state={
-      newTask:"Acá va a ir el estado cuando lo cambiemos",
+      newTask:"Acá va a ir el estado cuando lo cambiemos!",
       numero:0,
-      task:["avisar que vamos a salir"]
+      tasks:["Avisar que vamos a salir"]
     };
     this.cont=1;
-    this.handleTaskChange = this.handleTaskChange.bind(this)
+    this.handleTaskChange=this.handleTaskChange.bind(this);
+    this.agregar = this.agregar.bind(this);
   }
-
-  handleTaskChange(evt){
+  handleTaskChange(e){
     this.cont++;
-    this.setState({newTask: evt.target.value, numero:this.cont})
-
+    this.setState({newTask:e.target.value,numero:this.cont})
+  }
+  agregar(event){
+    event.preventDefault()
+    //console.log("HOLA");
+    let newTasks = this.state.tasks;
+    newTasks.push(this.state.newTask);
+    this.setState({newTask:"", tasks:newTasks});
   }
   render(){
     return (
     <div className="container bg-dark">
       <div className="row">
         <h1 className="text-center text-white">Hola Mundo!!</h1>
-        <span className="text-white">{this.state.numero}</span>
+        <span className="text-white" >{this.state.numero}</span>
         <div className="d-flex justify-content-center">
-          <input 
-          onChange={this.handleTaskChange} 
-          type="text" 
-          className="w-25" />
+          <form onSubmit={this.agregar}>
+            <input 
+            onChange={this.handleTaskChange} 
+            type="text" 
+            className="w-25" />
+            <input className="btn btn-primary" type="submit" value="Agregar" />
+          </form>
         </div>
         <h2 className="text-white text-center">{this.state.newTask}</h2>
         <ul>{
-          this.state.task.map((t, i)=> <li className="text-white" key={i}>{t}</li>)
+            this.state.tasks.map((t,i)=><li className="text-white" key={i}>{t}</li>)
           }</ul>
+ 
       </div>
     </div>
   );
@@ -40,4 +50,3 @@ class App extends Component{
 }
  
 export default App;
- 
